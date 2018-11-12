@@ -1,28 +1,45 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app" class="container">
+    <Navbar />
+    <Pembukaan v-if="page == 'pembukaan'" @data="changePageTo" />
+    <Isi v-bind:status="viewType" v-else-if="page == 'isi'"/>
+    <Penutup v-else-if="page == 'penutup'" />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Navbar from './components/Navbar.vue'
+import Pembukaan from './components/Pembukaan.vue'
+import Isi from './components/Isi.vue'
+import Penutup from './components/Penutup.vue'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    Navbar,
+    Pembukaan,
+    Isi,
+    Penutup
+  },
+  data: function() {
+    return {
+      page: 'pembukaan',
+      viewType: 'creator'
+    }
+  },
+  methods: {
+    changePageTo: function(data) {
+      if (data.creator == true) {
+        this.viewType = "creator"
+      } else {
+        this.viewType = "player"
+      }
+      this.page = data.page
+    }
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
