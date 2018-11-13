@@ -1,6 +1,5 @@
 <template>
     <div id="pembukaan">
-        <audio src="../assets/horse.mp3" type="audio/mp3" />
         <div id="left">
             <a class="button is-primary is-rounded" v-on:click="onCreateClick">Create</a>
             <div v-if="isCreateClicked">
@@ -25,14 +24,16 @@
                 </b-field>        
                 <a class="button is-success is-active" v-on:click="onSubmitClick(false)">Submit</a>  
             </div>
-
-        </div>
-        <h3>Creator {{isCreator}}</h3>
-        
+        </div>        
     </div>
 </template>
 
 <script>
+/* eslint-disable */
+
+import { ApiFactory } from '../services/ApiFactory'
+const GameInfoService = ApiFactory.get('gameinfo')
+
 export default {
     name: "Pembukaan",
     data: function() {
@@ -46,6 +47,9 @@ export default {
             isCreator: false
         }
     },
+    created() {
+        this.getGameInfo()
+    },
     methods: {
         onCreateClick: function() {
             this.isCreateClicked = !this.isCreateClicked
@@ -56,6 +60,11 @@ export default {
         onSubmitClick: function(status) {
             this.isCreator = status
             this.$emit('data', {'page': "isi", 'creator': status})
+        },
+        getGameInfo() {
+            GameInfoService.getGameById(123).then(response => {
+                console.log(response)
+            })
         }
     }
 }

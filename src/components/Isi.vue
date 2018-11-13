@@ -45,6 +45,7 @@ export default {
 
                 if (self.questionNumber == self.questionNumbers.length) {
                     clearInterval(ourInterval)
+                    self.$emit('data', {'page': 'penutup'})
                 }
             }, 2000)
         },

@@ -1,8 +1,8 @@
 <template>
   <div id="app" class="container">
     <Navbar />
-    <Pembukaan v-if="page == 'pembukaan'" @data="changePageTo" />
-    <Isi v-bind:status="viewType" v-else-if="page == 'isi'"/>
+    <Pembukaan v-if="page == 'pembukaan'" @data="checkViewType" />
+    <Isi v-else-if="page == 'isi'" @data="changePage" v-bind:status="viewType" />
     <Penutup v-else-if="page == 'penutup'" />
   </div>
 </template>
@@ -28,12 +28,15 @@ export default {
     }
   },
   methods: {
-    changePageTo: function(data) {
+    checkViewType: function(data) {
       if (data.creator == true) {
         this.viewType = "creator"
       } else {
         this.viewType = "player"
       }
+      this.changePage(data)
+    },
+    changePage(data) {
       this.page = data.page
     }
   }
